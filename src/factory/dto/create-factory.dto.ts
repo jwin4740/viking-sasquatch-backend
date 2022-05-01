@@ -1,16 +1,17 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-// TODO: no extra junk in request
 export class CreateFactoryDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
   public name: string;
 
+  @IsNumber()
   @ApiProperty()
   public lowerBoundChildNodes: number;
 
+  @IsNumber()
   @ApiProperty()
   public upperBoundChildNodes: number;
 }

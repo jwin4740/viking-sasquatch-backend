@@ -10,12 +10,17 @@ import {
 import { FactoryService } from './factory.service';
 import { CreateFactoryDto } from './dto/create-factory.dto';
 import { UpdateFactoryDto } from './dto/update-factory.dto';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('factory')
 export class FactoryController {
   constructor(private readonly factoryService: FactoryService) {}
 
   @Post()
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
   create(@Body() createFactoryDto: CreateFactoryDto) {
     return this.factoryService.create(createFactoryDto);
   }

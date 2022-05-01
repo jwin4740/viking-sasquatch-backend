@@ -15,6 +15,10 @@ export class FactoryService {
   create(createFactoryDto: CreateFactoryDto) {
     const factory = new Factory();
     factory.name = createFactoryDto.name;
+    factory.lowerBoundChildNodes = createFactoryDto.lowerBoundChildNodes;
+    factory.upperBoundChildNodes = createFactoryDto.upperBoundChildNodes;
+    //TODO: errror handling
+    // this.factoryRepository.save(factory).catch((err) => console.warn(err));
     return this.factoryRepository.save(factory);
   }
 

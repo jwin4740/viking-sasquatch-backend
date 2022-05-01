@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { Factory } from 'src/factory/entities/factory.entity';
 import {
   Entity,
@@ -14,7 +15,7 @@ export class Child {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column({ default: randomUUID() })
   name: string;
 
   @CreateDateColumn()

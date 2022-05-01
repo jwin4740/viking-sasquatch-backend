@@ -1,4 +1,5 @@
 import { Child } from 'src/child/entities/child.entity';
+import { utils } from 'src/utils';
 import {
   Entity,
   Column,
@@ -16,11 +17,14 @@ export class Factory {
   @Column({ unique: true })
   name: string;
 
-  @Column({ default: 1, nullable: false })
-  lowerBoundChildNodes: Number;
+  @Column({ default: utils.defaultMinChildren, nullable: false })
+  lowerBoundChildNodes: number;
 
-  @Column({ default: 15, nullable: false })
-  upperBoundChildNodes: Number;
+  @Column({ default: utils.defaultMaxChildren, nullable: false })
+  upperBoundChildNodes: number;
+
+  @Column({ default: utils.defaultMaxChildren, nullable: false })
+  numberChildrenToCreate: number;
 
   @CreateDateColumn()
   createdDate: Date;

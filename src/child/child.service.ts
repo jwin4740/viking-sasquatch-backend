@@ -28,6 +28,22 @@ export class ChildService {
     return this.childRepository.save(child);
   }
 
+  async createBulk(createChildDto: CreateChildDto) {
+    const factory = await this.factoryRepository.findOne(
+      createChildDto.factoryId,
+    );
+    const insertedChildren: Child[] = [];
+    const childrentoCreate = factory.numberChildrenToCreate;
+    for (let i = 0; i < childrentoCreate; i++) {
+      const child = new Child();
+      child.factory = factory;
+      child.name = 'child' + (i + 1);
+      insertedChildren.push(child);
+    }
+
+    return this.childRepository.save(insertedChildren);
+  }
+
   findAll() {
     return `This action returns all child`;
   }
