@@ -1,11 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Factory } from 'src/factory/entities/factory.entity';
+import { Repository } from 'typeorm';
 import { CreateChildDto } from './dto/create-child.dto';
 import { UpdateChildDto } from './dto/update-child.dto';
+import { Child } from './entities/child.entity';
 
 @Injectable()
 export class ChildService {
-  create(createChildDto: CreateChildDto) {
-    return 'This action adds a new child';
+  constructor(
+    @InjectRepository(Child)
+    private readonly childRepository: Repository<Child>,
+    @InjectRepository(Factory)
+    private readonly factoryRepository: Repository<Factory>,
+  ) {}
+  async create(createChildDto: CreateChildDto) {
+    const child = new Child();
+    child.name = createChildDto.name;
+
+    const factory = await this.factoryRepository.findOne(
+      createChildDto.factoryId,
+    );
+    console.warn(factory);
+
+    child.factory = factory;
+    console.warn(child);
+    return this.childRepository.save(child);
   }
 
   findAll() {

@@ -17,7 +17,6 @@ export class FactoryController {
 
   @Post()
   create(@Body() createFactoryDto: CreateFactoryDto) {
-    console.warn('into controller');
     return this.factoryService.create(createFactoryDto);
   }
 

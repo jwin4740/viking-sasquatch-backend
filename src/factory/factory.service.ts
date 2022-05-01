@@ -19,7 +19,7 @@ export class FactoryService {
   }
 
   findAll() {
-    return `This action returns all factory`;
+    return this.factoryRepository.find();
   }
 
   findOne(id: number) {
@@ -27,10 +27,12 @@ export class FactoryService {
   }
 
   update(id: number, updateFactoryDto: UpdateFactoryDto) {
-    return `This action updates a #${id} factory`;
+    const factory = new Factory();
+    factory.name = updateFactoryDto.name;
+    return this.factoryRepository.update({ id: id }, factory);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} factory`;
+    return this.factoryRepository.delete(id);
   }
 }

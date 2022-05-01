@@ -6,6 +6,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  IsNull,
 } from 'typeorm';
 
 @Entity()
@@ -22,6 +23,9 @@ export class Child {
   @UpdateDateColumn()
   updatedDate: Date;
 
-  @ManyToOne(() => Factory, (factory) => factory.children)
+  //TODO: don't allow Null
+  @ManyToOne(() => Factory, (factory) => factory.children, {
+    onDelete: 'CASCADE',
+  })
   factory: Factory;
 }

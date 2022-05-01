@@ -16,12 +16,18 @@ export class Factory {
   @Column({ unique: true })
   name: string;
 
+  @Column({ default: 1, nullable: false })
+  lowerBoundChildNodes: Number;
+
+  @Column({ default: 15, nullable: false })
+  upperBoundChildNodes: Number;
+
   @CreateDateColumn()
   createdDate: Date;
 
   @UpdateDateColumn()
   updatedDate: Date;
 
-  @OneToMany(() => Child, (child) => child.factory)
+  @OneToMany(() => Child, (child) => child.factory, { onDelete: 'CASCADE' })
   children: Child[];
 }
