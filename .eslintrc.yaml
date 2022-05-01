@@ -1,0 +1,97 @@
+parser: '@typescript-eslint/parser'
+extends:
+  # Uses the recommended rules from the @typescript-eslint/eslint-plugin
+  - plugin:@typescript-eslint/recommended
+  # Use recommended rules for Jest
+  - plugin:jest/recommended
+  # Adds TypeScript support for the import plugin
+  - plugin:import/typescript
+  # Enables eslint-plugin-prettier and displays prettier errors as ESLint errors.
+  # Make sure this is always the last configuration in the extends array.
+  - plugin:prettier/recommended
+plugins:
+  - import
+parserOptions:
+  ecmaVersion: 2018 # Allows for the parsing of modern ECMAScript features
+  sourceType: module # Allows for the use of imports
+  tsconfigRootDir: '.'
+  project:
+    - ./tsconfig.json
+rules:
+  # Base ESLint Rules
+  complexity:
+    - warn
+    - 15
+  max-depth:
+    - error
+    - 4
+  newline-before-return: 2
+  no-console:
+    - warn
+  no-duplicate-imports: 0
+  no-return-await: warn
+  no-shadow: 0
+  no-template-curly-in-string: warn
+  padding-line-between-statements:
+    - error
+    - blankLine: always
+      prev: '*'
+      next: if
+    - blankLine: always
+      prev: '*'
+      next: block-like
+    - blankLine: always
+      prev: '*'
+      next: block
+  prefer-const: 2
+
+  # TypeScript Plugin Rules
+  ## Disable
+  '@typescript-eslint/explicit-function-return-type': off
+  '@typescript-eslint/explicit-module-boundary-types': off
+  '@typescript-eslint/interface-name-prefix': off
+  '@typescript-eslint/no-angle-bracket-type-assertion': off
+  '@typescript-eslint/no-explicit-any': off
+  '@typescript-eslint/no-non-null-assertion': off
+  '@typescript-eslint/no-use-before-define': off
+  ## Enable
+  '@typescript-eslint/await-thenable': warn
+  '@typescript-eslint/ban-types': warn
+  '@typescript-eslint/no-duplicate-imports': error
+  '@typescript-eslint/no-floating-promises': warn
+  '@typescript-eslint/no-shadow': warn
+  '@typescript-eslint/no-unused-vars':
+    - error
+    - vars: all
+      args: none
+      ignoreRestSiblings: true
+  '@typescript-eslint/restrict-plus-operands':
+    - error
+    - checkCompoundAssignments: true
+  '@typescript-eslint/restrict-template-expressions':
+    - warn
+    - allowAny: true
+      allowNullish: true # TODO: Consider disallowing nullish (the rule's default)
+
+  # import Plugin Rules
+  import/order:
+    - warn
+    - newlines-between: always
+      alphabetize:
+        order: asc
+
+  # Jest Plugin Rules
+  jest/no-focused-tests: warn
+
+  # Prettier plugin rules
+  prettier/prettier: warn
+
+overrides:
+  - files:
+      - '*.ts'
+    rules:
+      '@typescript-eslint/explicit-member-accessibility':
+        - error
+        - accessibility: explicit
+          overrides:
+            constructors: no-public
