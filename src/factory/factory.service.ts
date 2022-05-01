@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateFactoryDto } from './dto/create-factory.dto';
 import { UpdateFactoryDto } from './dto/update-factory.dto';
+import { Factory } from './entities/factory.entity';
 
 @Injectable()
 export class FactoryService {
+  constructor(
+    @InjectRepository(Factory)
+    private readonly factoryRepository: Repository<Factory>,
+  ) {}
+
   create(createFactoryDto: CreateFactoryDto) {
-    return 'This action adds a new factory';
+    const factory = new Factory();
+    factory.name = createFactoryDto.name;
+    return this.factoryRepository.save(factory);
   }
 
   findAll() {

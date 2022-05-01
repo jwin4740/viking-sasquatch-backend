@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { FactoryService } from './factory.service';
 import { CreateFactoryDto } from './dto/create-factory.dto';
 import { UpdateFactoryDto } from './dto/update-factory.dto';
@@ -9,6 +17,7 @@ export class FactoryController {
 
   @Post()
   create(@Body() createFactoryDto: CreateFactoryDto) {
+    console.warn('into controller');
     return this.factoryService.create(createFactoryDto);
   }
 
