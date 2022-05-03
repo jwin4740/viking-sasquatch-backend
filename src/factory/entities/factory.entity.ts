@@ -23,8 +23,8 @@ export class Factory {
   @Column({ default: utils.defaultMaxChildren, nullable: false })
   upperBoundChildNodes: number;
 
-  @Column({ default: utils.defaultMaxChildren, nullable: false })
-  numberChildrenToCreate: number;
+  @Column({ default: utils.defaultNumChildren, nullable: false })
+  numberOfChildren: number;
 
   @CreateDateColumn()
   createdDate: Date;

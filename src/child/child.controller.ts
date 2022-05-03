@@ -21,10 +21,10 @@ export class ChildController {
     return this.childService.create(createChildDto);
   }
 
-  @Post('/bulk')
-  async bulkCreate(@Body() createChildDto: CreateChildDto) {
-    return this.childService.createBulk(createChildDto);
-  }
+  // @Post('/bulk')
+  // async bulkCreate(@Body() createChildDto: CreateChildDto) {
+  //   return this.childService.createBulk(createChildDto);
+  // }
 
   @Get()
   findAll() {

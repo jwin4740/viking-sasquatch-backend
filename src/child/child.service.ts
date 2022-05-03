@@ -28,12 +28,9 @@ export class ChildService {
     return this.childRepository.save(child);
   }
 
-  async createBulk(createChildDto: CreateChildDto) {
-    const factory = await this.factoryRepository.findOne(
-      createChildDto.factoryId,
-    );
+  async createBulk(factory: Factory) {
     const insertedChildren: Child[] = [];
-    const childrentoCreate = factory.numberChildrenToCreate;
+    const childrentoCreate = factory.numberOfChildren;
     for (let i = 0; i < childrentoCreate; i++) {
       const child = new Child();
       child.factory = factory;
@@ -41,7 +38,7 @@ export class ChildService {
       insertedChildren.push(child);
     }
 
-    return this.childRepository.save(insertedChildren);
+    await this.childRepository.save(insertedChildren);
   }
 
   findAll() {

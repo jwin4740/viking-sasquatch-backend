@@ -11,6 +11,17 @@ import { FactoryService } from './factory.service';
 import { CreateFactoryDto } from './dto/create-factory.dto';
 import { UpdateFactoryDto } from './dto/update-factory.dto';
 import { ApiResponse } from '@nestjs/swagger';
+interface ChildResponse {
+  id: number;
+  name: string;
+}
+
+interface FactoryWithChildrenResponse {
+  id: number;
+  name: string;
+  numberOfChildren: number;
+  children: ChildResponse[];
+}
 
 @Controller('factory')
 export class FactoryController {
@@ -26,7 +37,7 @@ export class FactoryController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.factoryService.findAll();
   }
 

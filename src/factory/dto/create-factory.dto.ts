@@ -14,4 +14,8 @@ export class CreateFactoryDto {
   @IsNumber()
   @ApiProperty()
   public upperBoundChildNodes: number;
+
+  @IsNumber()
+  @ApiProperty()
+  public numberOfChildren: number;
 }

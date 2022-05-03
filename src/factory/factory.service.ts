@@ -1,6 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ChildService } from 'src/child/child.service';
+import { CreateChildDto } from 'src/child/dto/create-child.dto';
+
+import { getManager, Repository } from 'typeorm';
 import { CreateFactoryDto } from './dto/create-factory.dto';
 import { UpdateFactoryDto } from './dto/update-factory.dto';
 import { Factory } from './entities/factory.entity';
@@ -8,22 +11,34 @@ import { Factory } from './entities/factory.entity';
 @Injectable()
 export class FactoryService {
   constructor(
+    @Inject(ChildService)
+    private readonly childService: ChildService,
     @InjectRepository(Factory)
     private readonly factoryRepository: Repository<Factory>,
   ) {}
 
-  create(createFactoryDto: CreateFactoryDto) {
+  async create(createFactoryDto: CreateFactoryDto) {
     const factory = new Factory();
     factory.name = createFactoryDto.name;
     factory.lowerBoundChildNodes = createFactoryDto.lowerBoundChildNodes;
     factory.upperBoundChildNodes = createFactoryDto.upperBoundChildNodes;
+    factory.numberOfChildren = createFactoryDto.numberOfChildren;
     //TODO: errror handling
     // this.factoryRepository.save(factory).catch((err) => console.warn(err));
-    return this.factoryRepository.save(factory);
+
+    //  TODO: rewrite as Transaction
+
+    const fact = await this.factoryRepository.save(factory);
+    await this.childService.createBulk(fact);
+    console.warn(fact);
+
+    return fact;
   }
 
   findAll() {
-    return this.factoryRepository.find();
+    return this.factoryRepository.find({
+      relations: ['children'],
+    });
   }
 
   findOne(id: number) {
