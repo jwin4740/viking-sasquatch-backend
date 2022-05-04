@@ -53,4 +53,4 @@ jobs:
           app-name: 'viking-sas'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_83CCB9534B07473EAF027E8C6446D8E8 }}
-          package: dist/
+          package: .
