@@ -57,8 +57,9 @@ jobs:
       - name: 'Post Deploy Startup'
         run: |
               npm ci
-              npm prebuild
-              npm build
+              npm run prebuild
+              npm run build
+              npm run start:prod
 
 
 
