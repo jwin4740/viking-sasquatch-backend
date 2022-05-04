@@ -27,6 +27,7 @@ export class Child {
   //TODO: don't allow Null
   @ManyToOne(() => Factory, (factory) => factory.children, {
     onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
   })
   factory: Factory;
 }

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateChildDto } from './dto/create-child.dto';
 import { UpdateChildDto } from './dto/update-child.dto';
 import { Child } from './entities/child.entity';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class ChildService {
@@ -34,7 +35,7 @@ export class ChildService {
     for (let i = 0; i < childrentoCreate; i++) {
       const child = new Child();
       child.factory = factory;
-      child.name = 'child' + (i + 1);
+      child.name = faker.name.firstName();
       insertedChildren.push(child);
     }
 
@@ -55,5 +56,9 @@ export class ChildService {
 
   remove(id: number) {
     return `This action removes a #${id} child`;
+  }
+
+  async removeAllLinkedChildren(factoryId: number) {
+    await this.childRepository.delete('');
   }
 }

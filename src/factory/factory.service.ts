@@ -2,8 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChildService } from 'src/child/child.service';
 import { CreateChildDto } from 'src/child/dto/create-child.dto';
+import { Child } from 'src/child/entities/child.entity';
 
-import { getManager, Repository } from 'typeorm';
+import { getConnection, getManager, Repository } from 'typeorm';
 import { CreateFactoryDto } from './dto/create-factory.dto';
 import { UpdateFactoryDto } from './dto/update-factory.dto';
 import { Factory } from './entities/factory.entity';
@@ -42,13 +43,35 @@ export class FactoryService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} factory`;
+    const res = this.factoryRepository.findOne(id, {
+      relations: ['children'],
+    });
+    return res;
   }
 
-  update(id: number, updateFactoryDto: UpdateFactoryDto) {
+  async update(id: number, updateFactoryDto: UpdateFactoryDto) {
     const factory = new Factory();
     factory.name = updateFactoryDto.name;
-    return this.factoryRepository.update({ id: id }, factory);
+    factory.lowerBoundChildNodes = updateFactoryDto.lowerBoundChildNodes;
+    factory.upperBoundChildNodes = updateFactoryDto.upperBoundChildNodes;
+    factory.numberOfChildren = updateFactoryDto.numberOfChildren;
+
+    const delRes = await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(Child)
+      .where('factoryId = :id', { id: id })
+      .execute();
+
+    console.warn(delRes);
+    const updateFactory = await this.factoryRepository.update(
+      { id: id },
+      factory,
+    );
+    const res2 = await this.findOne(id);
+    await this.childService.createBulk(res2);
+
+    return updateFactory;
   }
 
   remove(id: number) {

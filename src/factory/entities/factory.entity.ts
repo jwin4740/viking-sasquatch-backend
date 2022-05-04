@@ -32,6 +32,9 @@ export class Factory {
   @UpdateDateColumn()
   updatedDate: Date;
 
-  @OneToMany(() => Child, (child) => child.factory, { onDelete: 'CASCADE' })
+  @OneToMany(() => Child, (child) => child.factory, {
+    onDelete: 'CASCADE',
+    cascade: true,
+  })
   children: Child[];
 }
