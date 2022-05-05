@@ -21,11 +21,11 @@ jobs:
         with:
           node-version: '16.x'
 
-      # - name: npm install, build
-      #   run: |
-      #     npm ci
-      #     npm run prebuild
-      #     npm run build --if-present
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -52,15 +52,5 @@ jobs:
         with:
           app-name: 'viking-sas'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_83CCB9534B07473EAF027E8C6446D8E8 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_354679F8AF0C47958CDC33322F9643B2 }}
           package: .
-      - name: 'Post Deploy Startup'
-        run: |
-              npm ci
-              npm run prebuild
-              npm run build
-              npm run start:prod
-            
-
-
-
