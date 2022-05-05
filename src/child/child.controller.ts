@@ -12,7 +12,7 @@ import { ChildService } from './child.service';
 import { CreateChildDto } from './dto/create-child.dto';
 import { UpdateChildDto } from './dto/update-child.dto';
 
-@Controller('child')
+@Controller('api/child')
 export class ChildController {
   constructor(private readonly childService: ChildService) {}
 

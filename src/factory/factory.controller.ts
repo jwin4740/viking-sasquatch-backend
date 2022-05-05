@@ -23,7 +23,7 @@ interface FactoryWithChildrenResponse {
   children: ChildResponse[];
 }
 
-@Controller('factory')
+@Controller('api/factory')
 export class FactoryController {
   constructor(private readonly factoryService: FactoryService) {}
 
